@@ -1,7 +1,8 @@
 # 橘猫去水系统
  
  前端基于uniapp框架开发的，引用了colorUI、uviewUI组件库，感谢作者！
- 后端部分业务php文件加密了一下，只想保留一下作者名字
+ 
+ 后端部分业务php文件加密了一下，只想保留一下作者名字。也可以自行二开不使用加密的文件。
 
  小白在线教程文档：https://www.kancloud.cn/xiaofanmo/jumao_free
 
