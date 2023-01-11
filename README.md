@@ -1,16 +1,29 @@
 # 橘猫去水印 （微信小程序）
- 
- QQ交流群：790720186
- 
+
+ 有问题可以去QQ交流群：790720186<br>
+ 或者联系我微信小号：FanmoNetwork
+
  前端基于uniapp框架开发的，引用了colorUI、uviewUI组件库，感谢作者！
  
  后端部分业务php文件加密了一下，只想保留一下作者名字。也可以自行二开不使用加密的文件。
 
  小白在线教程文档：https://www.kancloud.cn/xiaofanmo/jumao_free
 
+<br>
+
+### 更新内容
+
+###### 2023-01-11
+1、增加批量解析页面<br>
+2、增加了一个比较垃圾的抖音主页解析方法，具体代码在Apis.php文件中
+
+
+<br>
+
+### 自定义接口配置
 
  自定义解析接口配置的文件路径是 
- source/application/api/controller/Apis.php 中的analysis函数
+ source/application/api/controller/Apis.php 中的analysis方法
  返回接口格式如下
 ```
 return [

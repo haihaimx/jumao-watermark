@@ -123,7 +123,7 @@
 					{
 						name: '批量解析',
 						content: '批量解析视频...',
-						url: null
+						url: '/pages/tool/batch'
 					},
 					{
 						name: '待开发',
