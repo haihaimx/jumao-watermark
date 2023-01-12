@@ -45,6 +45,7 @@
 </template>
 
 <script>
+let _this;
 let rewardedVideoAd = null
 import Base64 from 'base-64';
 var App = require("@/common.js");
@@ -74,11 +75,12 @@ export default {
     this.images = this.data.images
     console.log(this.data.images)
 
+    _this = this
+
     uni.setNavigationBarTitle({
       title: this.data.title
     })
 
-    let _this = this
     var setting = uni.getStorageSync("setting")
     if (setting.wxConfig.is_ad == '1') {
       _this.ad_id = setting.wxConfig.ad_video
@@ -111,9 +113,38 @@ export default {
     }
   },
   watch: {
+    code(newVal, oldVal) {
+      if (newVal == 200) {
+        uni.hideLoading()
+        uni.showToast({
+          title: "已保存到相册",
+          icon: "success",
+          duration: 3000
+        })
+      }
+    },
+    image(newVal, oldVal) {
+      if (newVal - 1 < this.images.length) {
+        uni.showLoading({
+          title: "下载第" + this.image + "/" + this.images.length + "张"
+        })
+        var msg = this.images[newVal - 1]
+        // msg = encodeURIComponent(msg)
+        this.transit(msg, 1)
+      } else {
+        uni.hideLoading()
+        uni.showToast({
+          title: "已全部保存",
+          icon: "success",
+          duration: 3000
+        })
+      }
+    }
+
+  },
+  methods: {
     excitation() {
       var times = new Date().getTime();
-      let _this = this
       if (uni.getStorageSync('times') < times && _this.ad_excitation != '关闭') {
         uni.showModal({
           title: '重要提示',
@@ -154,37 +185,6 @@ export default {
         title: '已解锁24小时内不限次数下载'
       })
     },
-    code(newVal, oldVal) {
-      if (newVal == 200) {
-        uni.hideLoading()
-        uni.showToast({
-          title: "已保存到相册",
-          icon: "success",
-          duration: 3000
-        })
-      }
-    },
-    image(newVal, oldVal) {
-      if (newVal - 1 < this.images.length) {
-        uni.showLoading({
-          title: "下载第" + this.image + "/" + this.images.length + "张"
-        })
-        var msg = this.images[newVal - 1]
-        // msg = encodeURIComponent(msg)
-        this.transit(msg, 1)
-      } else {
-        uni.hideLoading()
-        uni.showToast({
-          title: "已全部保存",
-          icon: "success",
-          duration: 3000
-        })
-      }
-    }
-
-
-  },
-  methods: {
     tabSelect(e) {
       this.TabCur = e.currentTarget.dataset.id;
     },
@@ -193,6 +193,7 @@ export default {
     },
     transit(url, i) {
       this.download(App.download_image_url + encodeURIComponent(url), i)
+
     },
     //图片下载
     download(url, i) {
@@ -260,7 +261,8 @@ export default {
     },
     //复制图片链接
     copyText() {
-      if (!this.excitation()) {
+      if (!_this.excitation()) {
+
         return false
       }
       uni.setClipboardData({
@@ -312,7 +314,7 @@ export default {
       });
     },
     dow() {
-      if (!this.excitation()) {
+      if (!_this.excitation()) {
         return false
       }
       this.code = 403
@@ -324,7 +326,7 @@ export default {
       this.transit(msg, 0)
     },
     dows() {
-      if (!this.excitation()) {
+      if (!_this.excitation()) {
         return false
       }
       this.code = 403
