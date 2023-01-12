@@ -52,6 +52,28 @@
                                 </div>
                             </div>
 
+                            <div class="am-form-group">
+                                <label class="am-u-sm-3 am-form-label form-require">
+                                    限制用户下载
+                                </label>
+                                <div class="am-u-sm-9 am-u-end">
+                                    <label class="am-radio-inline">
+                                        <input type="radio" name="wxapp[is_download]" value="0"
+                                               data-am-ucheck
+                                            <?= $wxapp['is_download'] == 0 ? 'checked' : '' ?>>
+                                        关闭
+                                    </label>
+                                    <label class="am-radio-inline">
+                                        <input type="radio" name="wxapp[is_download]" value="1"
+                                               data-am-ucheck
+                                            <?= $wxapp['is_download'] == 1 ? 'checked' : '' ?>>
+                                        开启
+                                    </label>
+                                </div>
+                                <small class="am-u-sm-9 am-margin-top">开启前请先开启流量主的激励广告。开启后用户需看一次激励广告后可在24小时内不限次数下载视频</small>
+
+                            </div>
+
 
                             <div class="am-form-group">
                                 <label class="am-u-sm-3 am-form-label">
