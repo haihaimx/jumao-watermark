@@ -109,7 +109,9 @@ export default {
 
       ad_excitation: "关闭",
 
-      isDownload: false
+      isDownload: false,
+
+
 
 
 
@@ -209,7 +211,7 @@ export default {
       this.TabCur = e.currentTarget.dataset.id;
     },
     transit(url) {
-      this.Video(App.download_video_url + encodeURIComponent(url))
+      this.Video(uni.getStorageSync("download_video") + encodeURIComponent(url))
     },
     // 下载视频
     Video(url) {
@@ -315,9 +317,8 @@ export default {
         title: "拼命下载中"
       })
       let msg = this.data.cover
-      console.log(msg)
 
-      this.download(App.download_image_url + encodeURIComponent(msg))
+      this.download(uni.getStorageSync("download_image") + encodeURIComponent(msg))
 
     },
     download(url) {

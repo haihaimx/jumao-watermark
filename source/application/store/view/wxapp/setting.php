@@ -85,6 +85,35 @@
                                 </div>
                             </div>
 
+                            <div class="widget-head am-cf">
+                                <div class="widget-title am-fl">下载接口设置</div>
+                            </div>
+
+
+                            <div class="am-form-group">
+                                <label class="am-u-sm-3 am-form-label">
+                                    视频下载接口
+                                </label>
+                                <div class="am-u-sm-9">
+                                    <input type="text" class="tpl-form-input" name="wxapp[download_video]"
+                                           value="<?= $wxapp['download_video'] ?>">
+                                </div>
+                                <small class="am-u-sm-9 am-margin-top">非必要不用动这里，默认接口是https://你的域名/video.php?url=</small>
+
+                            </div>
+
+                            <div class="am-form-group">
+                                <label class="am-u-sm-3 am-form-label">
+                                    图片下载接口
+                                </label>
+                                <div class="am-u-sm-9">
+                                    <input type="text" class="tpl-form-input" name="wxapp[download_image]"
+                                           value="<?= $wxapp['download_image'] ?>">
+                                </div>
+                                <small class="am-u-sm-9 am-margin-top">非必要不用动这里，默认接口是https://你的域名/image.php?url=</small>
+
+                            </div>
+
 
 
                             <div class="am-form-group">

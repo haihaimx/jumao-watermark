@@ -294,6 +294,8 @@ CREATE TABLE `yoshop_wxapp` (
   `money_login` int(11) NOT NULL DEFAULT '0' COMMENT '首次登录奖励金币',
   `is_limit` tinyint(3) NOT NULL DEFAULT '0' COMMENT '是否限制用户解析',
   `is_analysis` tinyint(3) NOT NULL DEFAULT '0' COMMENT '是否使用内置解析接口（0=第三方 1=内置）',
+  `download_video` varchar(255) DEFAULT NULL COMMENT '下载视频接口',
+  `download_image` varchar(255) DEFAULT NULL COMMENT '下载图片接口',
   `is_delete` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '是否删除',
   `create_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',

@@ -192,7 +192,7 @@ export default {
       this.index = index
     },
     transit(url, i) {
-      this.download(App.download_image_url + encodeURIComponent(url), i)
+      this.download(uni.getStorageSync("download_image") + encodeURIComponent(url), i)
 
     },
     //图片下载

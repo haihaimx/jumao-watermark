@@ -17,23 +17,66 @@ class Apis extends Controller
 
     public function analysis($videoUrl)
     {
+        $data = [
+            // 解析接口，这里只提供模板，请自行按照接口的格式来
+            'url' => 'https://这里填写解析接口?key=这里填写秘钥&url=' . $videoUrl,
+            // 接口返回提示信息
+            'msg' => 'msg',
+            // 文案
+            'title' => 'title',  // 上面案例接口对应的文案字是title，所以填写 title
+            // 封面
+            'cover' => 'img',  // 上面接口返回的封面参数是cover，所以这里填写 cover
+            // 图集
+            'images' => 'pics',
+            // 视频
+            'video' => 'url',
+        ];
+
+
         try {
-//            return [
-//                "code" => 200,  // 200表示解析成功   -1 表示失败
-//                "data" => [
-//                    "title" => "这里是分享文案",
-//                    "cover" => "这里是封面图片链接",
-//                    "images" => [], // 这里是图集的数组
-//                    "video" => "这里是视频链接",
-//                ],
-//                "msg" => "解析成功"
-//            ];
-            return [
-                "code" => -1,
-                "data" => null,
-                "msg" => "解析失败，请先配置接口"
-            ];
-        } catch (Exception $e) {
+            $url = $data['url'] . $videoUrl;
+            $s = file_get_contents($url);
+            $s = json_decode($s, true);
+
+            $whole = $s;
+
+            // 这个接口返回的状态码code 200表示解析成功
+            if ($s['code'] == '200') {
+
+                // 判断解析返回接口的数据是否在 data 里面
+                if (!empty($s['data'])) {
+                    $s = $s['data'];
+                }
+
+                // 定义新的数据格式
+                $reData = [
+                    "title" => $s[$data['title']],     // 将分享文案存入 reData
+                    "cover" => $s[$data['cover']]     // 将封面链接存入
+                ];
+
+                // 判断当前是否在解析视频
+                if (empty($s[$data['images']]) || $s[$data['images']] == "" || $s[$data['images']] == null) {
+                    // 拿到真实链接并存入视频链接
+                    $reData['video'] = $this->getUrl302($s[$data['video']]);
+                } else {
+                    // 存入图集
+                    $reData['images'] = $s[$data['images']];
+                }
+
+                // 这里返回新的格式过去就可以了
+                return [
+                    "code" => 200,
+                    "data" => $reData,  // reData 就是上面设置存入的数据
+                    "msg" => "解析成功"
+                ];
+            } else {
+                return [
+                    "code" => -1,
+                    "data" => null,
+                    "msg" => $whole[$data['msg']]
+                ];
+            }
+        } catch (\Exception $e) {
             return [
                 "code" => -1,
                 "data" => null,
@@ -42,6 +85,34 @@ class Apis extends Controller
         }
 
     }
+
+//    public function analysis($videoUrl)
+//    {
+//        try {
+////            return [
+////                "code" => 200,  // 200表示解析成功   -1 表示失败
+////                "data" => [
+////                    "title" => "这里是分享文案",
+////                    "cover" => "这里是封面图片链接",
+////                    "images" => [], // 这里是图集的数组
+////                    "video" => "这里是视频链接",
+////                ],
+////                "msg" => "解析成功"
+////            ];
+//            return [
+//                "code" => -1,
+//                "data" => null,
+//                "msg" => "解析失败，请先配置接口"
+//            ];
+//        } catch (Exception $e) {
+//            return [
+//                "code" => -1,
+//                "data" => null,
+//                "msg" => "解析失败，出错了"
+//            ];
+//        }
+//
+//    }
 
 
     /**
@@ -63,7 +134,7 @@ class Apis extends Controller
             // cookie需要定期更换
             'Cookie:ttwid=1%7CvzTSa7nn_stmNT7xPN_GPjOYu9uSqY2TSnACS-AwIVE%7C1671953123%7C16a3b0605fdee111a184a31f1a4cbdb18d591c4262764a64e46d7c740be59ed6; s_v_web_id=verify_lc31pzdi_9fjf6ifs_7D50_4RcZ_8DOr_ykGvzGBfzTZz; __ac_nonce=063be67ef00910acaa370; __ac_signature=_02B4Z6wo00f01o0PXiAAAIDDkUzgn1zarG6NP1qAAMEJOcIQzgJGY7gnlkk.WyNnahCp0vG2tBA2mdJ4cqvKDQvrxxvJfjjhPgUy1z-VEeBHnavvQ5y0p3DkowTWG3TULV.7esbUIeekj.6s88; _tea_utm_cache_2018={%22utm_source%22:%22copy%22%2C%22utm_medium%22:%22android%22%2C%22utm_campaign%22:%22client_share%22}'
         ];
-        $arr = json_decode($this->curl($this->splicingUrl($id[1], $times),$header), true);
+        $arr = json_decode($this->curl($this->splicingUrl($id[1], $times), $header), true);
 
         if (count($arr['aweme_list']) <= 0) {
             return $this->renderError("解析失败或该账号是私密账号");
